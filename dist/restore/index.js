@@ -2134,15 +2134,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(__webpack_require__(470));
 const io = __importStar(__webpack_require__(1));
 const os = __importStar(__webpack_require__(87));
 const path = __importStar(__webpack_require__(622));
-const v4_1 = __importDefault(__webpack_require__(826));
+const uuidV4 = __webpack_require__(826);
 const constants_1 = __webpack_require__(694);
 // From https://github.com/actions/toolkit/blob/master/packages/tool-cache/src/tool-cache.ts#L23
 function createTempDirectory() {
@@ -2165,7 +2162,7 @@ function createTempDirectory() {
             }
             tempDirectory = path.join(baseLocation, "actions", "temp");
         }
-        const dest = path.join(tempDirectory, v4_1.default());
+        const dest = path.join(tempDirectory, uuidV4());
         yield io.mkdirP(dest);
         return dest;
     });

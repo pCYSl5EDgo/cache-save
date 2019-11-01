@@ -2,7 +2,7 @@ import * as core from "@actions/core";
 import * as io from "@actions/io";
 import * as os from "os";
 import * as path from "path";
-import uuidV4 from "uuid/v4";
+const uuidV4 = require("uuid/v4");
 
 import { Outputs, State } from "../constants";
 import { ArtifactCacheEntry } from "../contracts";
