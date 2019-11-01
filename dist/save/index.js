@@ -2858,13 +2858,7 @@ const utils = __importStar(__webpack_require__(443));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const state = utils.getCacheState();
-            // Inputs are re-evaluted before the post action, so we want the original key used for restore
-            const primaryKey = core.getState(constants_1.State.CacheKey);
-            if (utils.isExactKeyMatch(primaryKey, state)) {
-                core.info(`Cache hit occurred on the primary key ${primaryKey}, not saving cache.`);
-                return;
-            }
+            const primaryKey = core.getInput(constants_1.Inputs.Key, { required: true });
             let cachePath = utils.resolvePath(core.getInput(constants_1.Inputs.Path, { required: true }));
             core.debug(`Cache Path: ${cachePath}`);
             let archivePath = path.join(yield utils.createTempDirectory(), "cache.tgz");
@@ -2882,7 +2876,7 @@ function run() {
             const tarPath = yield io.which("tar", true);
             core.debug(`Tar Path: ${tarPath}`);
             yield exec_1.exec(`"${tarPath}"`, args);
-            const fileSizeLimit = 200 * 1024 * 1024; // 200MB
+            const fileSizeLimit = 800 * 1024 * 1024; // 800MB
             const archiveFileSize = fs.statSync(archivePath).size;
             core.debug(`File Size: ${archiveFileSize}`);
             if (archiveFileSize > fileSizeLimit) {

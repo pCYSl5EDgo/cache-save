@@ -11,21 +11,7 @@ import * as utils from "./utils/actionUtils";
 
 async function run() {
     try {
-        const state = utils.getCacheState();
-
-        // Inputs are re-evaluted before the post action, so we want the original key used for restore
-        const primaryKey = core.getState(State.CacheKey);
-        if (!primaryKey) {
-            core.warning(`Error retrieving key from state.`);
-            return;
-        }
-
-        if (utils.isExactKeyMatch(primaryKey, state)) {
-            core.info(
-                `Cache hit occurred on the primary key ${primaryKey}, not saving cache.`
-            );
-            return;
-        }
+        const primaryKey = core.getInput(Inputs.Key, { required: true });
 
         let cachePath = utils.resolvePath(
             core.getInput(Inputs.Path, { required: true })
@@ -54,7 +40,7 @@ async function run() {
         core.debug(`Tar Path: ${tarPath}`);
         await exec(`"${tarPath}"`, args);
 
-        const fileSizeLimit = 200 * 1024 * 1024; // 200MB
+        const fileSizeLimit = 800 * 1024 * 1024; // 800MB
         const archiveFileSize = fs.statSync(archivePath).size;
         core.debug(`File Size: ${archiveFileSize}`);
         if (archiveFileSize > fileSizeLimit) {
