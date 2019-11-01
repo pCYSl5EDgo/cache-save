@@ -2,7 +2,7 @@ import * as core from "@actions/core";
 import * as io from "@actions/io";
 import * as os from "os";
 import * as path from "path";
-import * as uuidV4 from "uuid/v4";
+import uuidV4 from "uuid/v4";
 
 import { Outputs, State } from "../constants";
 import { ArtifactCacheEntry } from "../contracts";
@@ -27,7 +27,7 @@ export async function createTempDirectory(): Promise<string> {
         }
         tempDirectory = path.join(baseLocation, "actions", "temp");
     }
-    const dest = path.join(tempDirectory, uuidV4.default());
+    const dest = path.join(tempDirectory, uuidV4());
     await io.mkdirP(dest);
     return dest;
 }
